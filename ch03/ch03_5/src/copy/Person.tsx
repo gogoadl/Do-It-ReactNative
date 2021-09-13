@@ -1,4 +1,3 @@
-// 최종 모습
 import React from 'react'
 import type {FC} from 'react'
 import {View, Text, Image, Alert} from 'react-native'
