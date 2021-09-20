@@ -13,26 +13,26 @@ const PersonUsingObjectState: FC<PersonProps> = ({person: initialPerson}) => {
   const avatarPressed = useCallback(() => Alert.alert('avatar pressed.'), [])
   const deletePressed = useCallback(() => Alert.alert('delete pressed.'), [])
 
-const [person, setPerson] = useState<D.IPerson>({
-  ...initialPerson,
-  counts: {comment: 0, retweet:0, heart: 0}
-})
+  const [person, setPerson] = useState<D.IPerson>({
+    ...initialPerson,
+    counts: {comment: 0, retweet:0, heart: 0}
+  })
 
-const heartIconPressed = useCallback(() => setPerson((person) =>  ({
-  ...person, 
-  counts: {
-    ...person.counts,
-    heart: person.counts.heart + 1
-  }
-})), [])
+  const heartIconPressed = useCallback(() => setPerson((person) =>  ({
+    ...person, 
+    counts: {
+      ...person.counts,
+      heart: person.counts.heart + 1
+    }
+  })), [])
 
-const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
-  ...person, 
-  counts: {
-    ...person.counts,
-    retweet: person.counts.retweet + 1
-  }
-})), [])
+  const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
+    ...person, 
+    counts: {
+      ...person.counts,
+      retweet: person.counts.retweet + 1
+    }
+  })), [])
 
   const commentIconPressed = useCallback(() => setPerson((person) =>  ({
     ...person, 
@@ -76,7 +76,7 @@ const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
         <View style={[styles.countsView]}>
           <IconText
             viewStyle={[styles.touchableIcon]}
-            onPress={countIconPressed}
+            onPress={commentIconPressed}
             name="comment"
             size={24}
             color={Colors.blue500}
@@ -85,7 +85,7 @@ const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
           />
           <IconText
             viewStyle={[styles.touchableIcon]}
-            onPress={countIconPressed}
+            onPress={retweetIconPressed}
             name="twitter-retweet"
             size={24}
             color={Colors.purple500}
@@ -94,7 +94,7 @@ const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
           />
           <IconText
             viewStyle={styles.touchableIcon}
-            onPress={countIconPressed}
+            onPress={heartIconPressed}
             name="heart"
             size={24}
             color={Colors.red500}
@@ -106,4 +106,4 @@ const retweetIconPressed = useCallback(() => setPerson((person) =>  ({
     </View>
   )
 }
-export default Person
+export default PersonUsingObjectState

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useCallback} from 'react'
 import type {FC} from 'react'
 import {View, Text, Image, Alert} from 'react-native'
 import {Colors} from 'react-native-paper'
@@ -7,26 +7,28 @@ import moment from 'moment-with-locales-es6'
 import * as D from '../data'
 import {Avatar, IconText} from '../components'
 import {styles} from './Person.style'
+import PersonIcons from './PersonIcons'
+
 
 moment.locale('ko')
 
 export type PersonProps = {
   person: D.IPerson
 }
-const avatarPressed = () => Alert.alert('avatar pressed.')
-const deletePressed = () => Alert.alert('delete pressed.')
-const countIconPressed = (name: string) => () => Alert.alert(`${name} pressed.`)
 
-const Person: FC<PersonProps> = ({person}) => {
+const PersonUsingPassingState: FC<PersonProps> = ({person: initialPerson}) => {
+  const [person, setPerson] = useState<D.IPerson>({
+    ...initialPerson,
+    counts: {comment:0, retweet: 0, heart: 0}
+  })
+
+  const avatarPressed = useCallback(() => Alert.alert('avatar pressed.'), [])
+  const deletePressed = useCallback(() => Alert.alert('delete pressed.'), [])
+
   return (
     <View style={[styles.view]}>
       <View style={[styles.leftView]}>
-        <Avatar
-          imageStyle={[styles.avatar]}
-          uri={person.avatar}
-          size={50}
-          onPress={avatarPressed}
-        />
+        <Avatar uri={person.avatar} size={50} onPress={avatarPressed} />
       </View>
       <View style={[styles.rightView]}>
         <Text style={[styles.name]}>{person.name}</Text>
@@ -49,37 +51,9 @@ const Person: FC<PersonProps> = ({person}) => {
           {person.comments}
         </Text>
         <Image style={[styles.image]} source={{uri: person.image}} />
-        <View style={[styles.countsView]}>
-          <IconText
-            viewStyle={[styles.touchableIcon]}
-            onPress={countIconPressed('comment')}
-            name="comment"
-            size={24}
-            color={Colors.blue500}
-            textStyle={[styles.iconText]}
-            text={person.counts.comment}
-          />
-          <IconText
-            viewStyle={[styles.touchableIcon]}
-            onPress={countIconPressed('retweet')}
-            name="twitter-retweet"
-            size={24}
-            color={Colors.purple500}
-            textStyle={[styles.iconText]}
-            text={person.counts.retweet}
-          />
-          <IconText
-            viewStyle={styles.touchableIcon}
-            onPress={countIconPressed('heart')}
-            name="heart"
-            size={24}
-            color={Colors.red500}
-            textStyle={[styles.iconText]}
-            text={person.counts.heart}
-          />
-        </View>
+        <PersonIcons person={person} setPerson={setPerson} />
       </View>
     </View>
   )
 }
-export default Person
+export default PersonUsingPassingState
