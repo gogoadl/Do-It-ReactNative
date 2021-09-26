@@ -1,27 +1,26 @@
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {Avatar} from '../components';
 import * as D from '../data';
-
+import {useInterval} from '../hooks';
+import {useToggle} from '../hooks/useToggle';
 type IdAndAvatar = Pick<D.IPerson, 'id' | 'avatar'>;
 
 export default function App() {
   const [avatars, setAvatars] = useState<IdAndAvatar[]>([]);
-  const [start, setStart] = useState(true);
-  const toggleStart = useCallback(() => setStart(start => !start), []);
+  const [start, toggleStart] = useToggle(true);
   const clearAvatars = useCallback(() => setAvatars(notUsed => []), []);
-  useEffect(() => {
-    const id = setInterval(() => {
-      if (start) {
-        setAvatars(avatars => [
-          ...avatars,
-          {id: D.randomId(), avatar: D.randomAvatarUrl()},
-        ]);
-      }
-    }, 1000);
-    return () => clearInterval(id); // 컴포넌트가 제거될 때 interval을 제거
-  }, [start]);
+  useInterval(
+    () =>
+      start &&
+      setAvatars(avatars => [
+        ...avatars,
+        {id: D.randomId(), avatar: D.randomAvatarUrl()},
+      ]),
+    1000,
+    [start],
+  );
 
   const children = avatars.map(({id, avatar}) => (
     <Avatar

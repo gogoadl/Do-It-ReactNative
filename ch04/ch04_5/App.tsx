@@ -11,5 +11,5 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  SafeAreaView: {flex: 1},
+  safeAreaView: {flex: 1},
 });
