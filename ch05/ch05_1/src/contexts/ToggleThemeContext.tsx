@@ -1,5 +1,5 @@
 import React, {createContext, useContext} from 'react';
-
+import type {FC} from 'react';
 export type ToggleThemeContextType = {
   toggleTheme: () => void;
 }; // 공유하려는 데이터 속성
@@ -31,6 +31,6 @@ export const ToggleThemeProvider: FC<ToggleThemeContextProps> = ({
 };
 
 export const useToggleTheme = () => {
-  const value = useContext(ToggleThemeContext);
-  return value;
+  const {toggleTheme} = useContext(ToggleThemeContext);
+  return toggleTheme;
 };
