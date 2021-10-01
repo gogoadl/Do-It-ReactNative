@@ -12,6 +12,8 @@ target 'ch05_2' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-appearance', :path => '../node_modules/react-native-appearance'
+
   target 'ch05_2Tests' do
     inherit! :complete
     # Pods for testing
