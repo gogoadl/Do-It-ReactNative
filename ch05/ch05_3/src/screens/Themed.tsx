@@ -132,7 +132,6 @@ export default function Themed() {
         <View style={[styles.textView]}>
           <Text style={[styles.text]}>email</Text>
           <TextInput
-            ref={textInputRef}
             style={[styles.textInput]}
             onFocus={autoFocus}
             value={person.email}
