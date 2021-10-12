@@ -1,4 +1,4 @@
-import {ICountry} from './ICountry'
+import {ICountry} from './ICountry';
 
 export const getCountries = (): Promise<ICountry[]> =>
   new Promise((resolve, reject) => {
@@ -6,10 +6,10 @@ export const getCountries = (): Promise<ICountry[]> =>
       .then(res => res.json())
       .then((result: any[]) => {
         const countries = result.map((data: any) => {
-          const {region, subregion, name, capital, population} = data
-          return {region, subregion, name, capital, population} as ICountry
-        })
-        resolve(countries)
+          const {region, subregion, name, capital, population} = data;
+          return {region, subregion, name, capital, population} as ICountry;
+        });
+        resolve(countries);
       })
-      .catch(reject)
-  })
+      .catch(reject);
+  });
