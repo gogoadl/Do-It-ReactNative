@@ -17,7 +17,8 @@ export type ImageSliderProps = {
 };
 
 const circleWidth = 10,
-  circleMarginRight = 5;
+  circleMarginRight = 5,
+  thumbnailSize = 30;
 
 export const ImageSlider: FC<ImageSliderProps> = ({
   imageUrls,
@@ -25,6 +26,23 @@ export const ImageSlider: FC<ImageSliderProps> = ({
   showThumbnails,
 }) => {
   const flatListRef = useRef<FlatList | null>(null);
+  const selectedIndexAnimValue = useAnimatedValue(0);
+  const selectedIndex = useMonitorAnimatedValue(selectedIndexAnimValue);
+
+  const circleWidthAnimValue = useAnimatedValue(circleWidth);
+  const circleMarginRightAnimValue = useAnimatedValue(circleMarginRight);
+
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (imageWidth == 0) return;
+
+      const {contentOffset} = event.nativeEvent;
+      const index = Math.round(contentOffset.x / imageWidth);
+      selectedIndexAnimValue.setValue(index);
+    },
+    [],
+  );
+
   const selectImage = useCallback(
     (index: number) => () => {
       flatListRef.current?.scrollToIndex({index});
@@ -50,6 +68,13 @@ export const ImageSlider: FC<ImageSliderProps> = ({
     [],
   );
 
+  const translateX = useTransformStyle({
+    translateX: Animated.multiply(
+      selectedIndexAnimValue,
+      Animated.add(circleWidthAnimValue, circleMarginRightAnimValue),
+    ),
+  });
+
   return (
     <>
       <FlatList
@@ -68,7 +93,12 @@ export const ImageSlider: FC<ImageSliderProps> = ({
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={[styles.iconBar, {justifyContent: 'center'}]}>
-        <View style={{flexDirection: 'row'}}>{circles}</View>
+        <View style={{flexDirection: 'row'}}>
+          {circles}
+          <Animated.View
+            style={[styles.circle, styles.selectedCircle, translateX]}
+          />
+        </View>
       </View>
       {showThumbnails && (
         <View style={[styles.iconBar, {justifyContent: 'space-between'}]}>
