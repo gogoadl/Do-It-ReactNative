@@ -1,13 +1,8 @@
-import {useMemo, useRef} from 'react';
+import {useRef} from 'react';
 import {Animated} from 'react-native';
 
-const makeArray = (length: number) => new Array(length).fill(null);
-
-export const useAnimatedValue = (length: number, initValue: number = 0) => {
-  return useMemo(
-    () => makeArray(length).map(notUsed => new Animated.Value(initValue)),
-    [],
-  );
+export const useAnimatedValue = (initValue: number = 0): Animated.Value => {
+  return useRef(new Animated.Value(initValue)).current;
 };
 // const animValue = useRef(new Animated.Value(0)).current ->
 // const animValue = useAnimatedValue(0)
