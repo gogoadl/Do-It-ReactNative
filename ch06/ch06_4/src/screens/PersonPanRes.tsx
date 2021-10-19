@@ -20,9 +20,24 @@ const PersonPanRes: FC<PersonProps> = ({person, deletePressed}) => {
   const [gestureState, setGestureState] = useState<State | null>(null)
   const [scrollEnabled, setScrollEnabled] = useScrollEnabled()
   
-  const panResponder = PanResponder.create({})
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder() { return true },
+    onPanResponderGrant(e:Event, s:State) {
+      ios && setScrollEnabled(false)
+      setGestureState(s)
+    },
+    onPanResponderRelease(e:Event, s:State) {
+      setGestureState(s)
+      ios && setScrollEnabled(true)
+    },
+    onMoveShouldSetPanResponder() {return true},
+    onPanResponderMove(e:Event, s:State) {
+      setGestureState(s)
+    }
+  })
   // const avatarPressed = useCallback(() => Alert.alert('avatar pressed.'), [])
-    
+
+
   return (
     <View background style={[{width: '100%'}]}>
       <Text>
