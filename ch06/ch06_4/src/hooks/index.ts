@@ -9,3 +9,4 @@ export * from './useMonitorAnimatedValue';
 export * from './useStyle';
 export * from './useTransformStyle';
 export * from './useAnimatedValues';
+export * from './usePanResponder';
