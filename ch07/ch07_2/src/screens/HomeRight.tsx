@@ -1,53 +1,51 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {StyleSheet, FlatList} from 'react-native';
-import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
-import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
+import React, {useCallback} from 'react';
+import {StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  UnderlineText,
+  TopBar,
+  Text,
+} from '../theme/navigation';
 import * as D from '../data';
-import Person from './Person';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-export default function People() {
-  const [scrollEnabled] = useScrollEnabled();
-  const [people, setPeople] = useState<D.IPerson[]>([]);
-
-  const addPerson = useCallback(() => {
-    setPeople(people => [D.createRandomPerson(), ...people]);
-  }, []);
-  const removeAllPerson = useCallback(() => {
-    setPeople(notUsed => []);
-  }, []);
-
-  const deletePerson = useCallback(
-    (id: string) => () =>
-      setPeople(people => people.filter(person => person.id != id)),
+const title = 'HomeRight';
+export default function HomeRight() {
+  const navigation = useNavigation();
+  const goBack = useCallback(
+    () => navigation.canGoBack() && navigation.goBack(),
     [],
   );
-  useEffect(() => D.makeArray(5).forEach(addPerson), []);
+  const goRight = useCallback(
+    () => navigation.navigate('HomeRight', {id: D.randomId()}),
+    [],
+  );
+
+  const route = useRoute();
   return (
     <SafeAreaView>
-      <ScrollEnabledProvider>
-        <View style={[styles.view]}>
-          <TopBar>
-            <UnderlineText onPress={addPerson} style={styles.text}>
-              add
-            </UnderlineText>
-            <UnderlineText onPress={removeAllPerson} style={styles.text}>
-              remove all
-            </UnderlineText>
-          </TopBar>
-          <FlatList
-            scrollEnabled={scrollEnabled}
-            data={people}
-            renderItem={({item}) => (
-              <Person person={item} deletePressed={deletePerson(item.id)} />
-            )}
-            keyExtractor={item => item.id}
-          />
+      <View style={[styles.view]}>
+        <TopBar>
+          <UnderlineText onPress={goBack} style={styles.text}>
+            go back
+          </UnderlineText>
+          <UnderlineText
+            onPress={goRight}
+            style={[styles.text, {marginRight: 10}]}>
+            go Right
+          </UnderlineText>
+        </TopBar>
+        <View style={[styles.content]}>
+          <Text style={[styles.text]}>{title}</Text>
+          <Text style={[styles.text]}>{JSON.stringify(route, null, 2)}</Text>
         </View>
-      </ScrollEnabledProvider>
+      </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   view: {flex: 1},
   text: {marginRight: 10, fontSize: 20},
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
 });
