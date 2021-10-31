@@ -41,7 +41,8 @@ export const styles = StyleSheet.create({
   text: {fontSize: 16},
   comments: {marginTop: 10, fontSize: 16},
   image: {height: 150, marginTop: 15},
-  countsView: {flexDirection: 'row', alignContent: 'center'},
+  countsView: {flexDirection: 'row', padding: 3, alignContent: 'center', justifyContent: 'space-around'},
+  countView: {flexDirection: 'row', alignContent: 'center'},
   touchableIcon: {flexDirection: 'row', padding: 5, alignItems: 'center'},
   iconText: {color: Colors.deepPurple500, marginLeft: 3},
 })

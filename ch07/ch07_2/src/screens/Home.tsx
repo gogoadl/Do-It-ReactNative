@@ -1,10 +1,12 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import * as D from '../data';
 import Person from './Person';
+import type {LeftRightNavigationMethods} from '../components/LeftRightNavigation';
+import {LeftRightNavigation} from '../components/LeftRightNavigation';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -17,19 +19,27 @@ export default function Home() {
   const [scrollEnabled] = useScrollEnabled();
   const [people, setPeople] = useState<D.IPerson[]>([]);
 
+  const leftRef = useRef<LeftRightNavigationMethods | null>(null);
+  const flatListRef = useRef<FlatList | null>(null);
+
   const addPerson = useCallback(() => {
     setPeople(people => [D.createRandomPerson(), ...people]);
   }, []);
   const removeAllPerson = useCallback(() => {
     setPeople(notUsed => []);
+    leftRef.current?.resetOffset();
   }, []);
 
   const deletePerson = useCallback(
-    (id: string) => () =>
+    (id: string) => () => {
       setPeople(people => people.filter(person => person.id != id)),
+        leftRef.current?.resetOffset();
+      flatListRef.current?.scrollToOffset({animated: true, offset: 0});
+    },
     [],
   );
   useEffect(() => D.makeArray(5).forEach(addPerson), []);
+
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
@@ -50,14 +60,21 @@ export default function Home() {
               remove all
             </UnderlineText>
           </TopBar>
-          <FlatList
-            scrollEnabled={scrollEnabled}
-            data={people}
-            renderItem={({item}) => (
-              <Person person={item} deletePressed={deletePerson(item.id)} />
-            )}
-            keyExtractor={item => item.id}
-          />
+          <LeftRightNavigation
+            ref={leftRef}
+            distance={40}
+            flatListRef={flatListRef}
+            onLeftToRight={goLeft}
+            onRightToLeft={goRight}>
+            <FlatList
+              scrollEnabled={scrollEnabled}
+              data={people}
+              renderItem={({item}) => (
+                <Person person={item} deletePressed={deletePerson(item.id)} />
+              )}
+              keyExtractor={item => item.id}
+            />
+          </LeftRightNavigation>
         </View>
       </ScrollEnabledProvider>
     </SafeAreaView>

@@ -35,7 +35,7 @@ const Person: FC<PersonProps> = ({person: initialPerson, deletePressed}) => {
           <Text style={[styles.text]}>
             {moment(person.createdDate).startOf('day').fromNow()}
           </Text>
-          <Icon name="trash-can-outline" size={26} color={Colors.lightBlue500}
+          <Icon name="trash-can" size={30} color={Colors.lightBlue500}
             onPress={deletePressed}/>
         </View>
         <Text numberOfLines={3} ellipsizeMode="tail"
@@ -43,27 +43,32 @@ const Person: FC<PersonProps> = ({person: initialPerson, deletePressed}) => {
           {person.comments}
         </Text>
         <Image style={[styles.image]} source={{uri: person.image}} />
-        <TouchableView style={[styles.countsView]}>
+        <View style={[styles.countsView]}>
+        <TouchableView style={[styles.countView]}>
           <Icon
             name="comment"
             size={24}
             color={Colors.blue500}
           />
+          <Text>{person.counts.comment}</Text>
           </TouchableView>
-          <TouchableView style={[styles.countsView]}>
+          <TouchableView style={[styles.countView]}>
           <Icon
             name="twitter-retweet"
             size={24}
             color={Colors.purple500}
           />
+          <Text>{person.counts.retweet}</Text>
           </TouchableView>
-          <TouchableView style={[styles.countsView]}>
+          <TouchableView style={[styles.countView]}>
           <Icon
             name="heart"
             size={24}
             color={Colors.red500}
           />
+          <Text>{person.counts.heart}</Text>
         </TouchableView>
+        </View>
       </View>
     </View>
   )
