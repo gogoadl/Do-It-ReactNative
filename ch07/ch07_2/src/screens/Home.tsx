@@ -1,12 +1,13 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
+// prettier-ignore
+import {SafeAreaView, View, UnderlineText,TopBar} from '../theme/navigation'
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import * as D from '../data';
 import Person from './Person';
-import type {LeftRightNavigationMethods} from '../components/LeftRightNavigation';
-import {LeftRightNavigation} from '../components/LeftRightNavigation';
+import {LeftRightNavigation} from '../components';
+import type {LeftRightNavigationMethods} from '../components';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -18,27 +19,24 @@ export default function Home() {
 
   const [scrollEnabled] = useScrollEnabled();
   const [people, setPeople] = useState<D.IPerson[]>([]);
-
   const leftRef = useRef<LeftRightNavigationMethods | null>(null);
-  const flatListRef = useRef<FlatList | null>(null);
-
   const addPerson = useCallback(() => {
     setPeople(people => [D.createRandomPerson(), ...people]);
   }, []);
-  const removeAllPerson = useCallback(() => {
+  const removeAllPersons = useCallback(() => {
     setPeople(notUsed => []);
     leftRef.current?.resetOffset();
   }, []);
-
   const deletePerson = useCallback(
     (id: string) => () => {
-      setPeople(people => people.filter(person => person.id != id)),
-        leftRef.current?.resetOffset();
+      setPeople(people => people.filter(person => person.id != id));
+      leftRef.current?.resetOffset();
       flatListRef.current?.scrollToOffset({animated: true, offset: 0});
     },
     [],
   );
   useEffect(() => D.makeArray(5).forEach(addPerson), []);
+  const flatListRef = useRef<FlatList | null>(null);
 
   return (
     <SafeAreaView>
@@ -56,7 +54,7 @@ export default function Home() {
             <UnderlineText onPress={addPerson} style={styles.text}>
               add
             </UnderlineText>
-            <UnderlineText onPress={removeAllPerson} style={styles.text}>
+            <UnderlineText onPress={removeAllPersons} style={styles.text}>
               remove all
             </UnderlineText>
           </TopBar>
@@ -67,6 +65,7 @@ export default function Home() {
             onLeftToRight={goLeft}
             onRightToLeft={goRight}>
             <FlatList
+              ref={flatListRef}
               scrollEnabled={scrollEnabled}
               data={people}
               renderItem={({item}) => (

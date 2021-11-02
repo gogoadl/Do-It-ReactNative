@@ -1,54 +1,31 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {StyleSheet, FlatList, Text} from 'react-native';
-import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
-import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
-import * as D from '../data';
-import Person from './Person';
+import React, {useCallback} from 'react';
+import {StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  NavigationHeader,
+  MaterialCommunityIcon as Icon,
+} from '../theme';
+import {LeftRightNavigation} from '../components';
 import {useNavigation} from '@react-navigation/native';
 
-const title = 'HomeLeft';
+const title = '카메라로 접근을 허가해 주세요';
 export default function HomeLeft() {
   const navigation = useNavigation();
-  const goBack = useCallback(
-    () => navigation.canGoBack() && navigation.goBack(),
-    [],
-  );
-  const goRight = useCallback(
-    () => navigation.navigate('HomeRight', {id: D.randomId()}),
-    [],
-  );
-  const [scrollEnabled] = useScrollEnabled();
-  const [people, setPeople] = useState<D.IPerson[]>([]);
 
-  const addPerson = useCallback(() => {
-    setPeople(people => [D.createRandomPerson(), ...people]);
-  }, []);
-  const removeAllPerson = useCallback(() => {
-    setPeople(notUsed => []);
-  }, []);
-
-  const deletePerson = useCallback(
-    (id: string) => () =>
-      setPeople(people => people.filter(person => person.id != id)),
-    [],
-  );
-  useEffect(() => D.makeArray(5).forEach(addPerson), []);
+  const goHome = useCallback(() => navigation.navigate('Home'), []);
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
-        <TopBar>
-          <UnderlineText onPress={goBack} style={styles.text}>
-            go back
-          </UnderlineText>
-          <UnderlineText
-            onPress={goRight}
-            style={[styles.text, {marginRight: 10}]}>
-            go Right
-          </UnderlineText>
-        </TopBar>
-        <View style={[styles.content]}>
-          <Text style={[styles.text]}>{title}</Text>
-        </View>
+        <NavigationHeader
+          Right={() => <Icon name="close" size={30} onPress={goHome} />}
+        />
+        <LeftRightNavigation distance={40} onRightToLeft={goHome}>
+          <View style={[styles.content]}>
+            <Text style={[styles.text]}>{title}</Text>
+          </View>
+        </LeftRightNavigation>
       </View>
     </SafeAreaView>
   );

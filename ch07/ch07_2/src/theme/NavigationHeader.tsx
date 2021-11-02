@@ -3,7 +3,6 @@ import type {FC, ReactNode} from 'react';
 import {StyleSheet} from 'react-native';
 import {View, Text} from './navigation';
 import type {StyleProp, ViewStyle, TextStyle} from 'react-native';
-import {styles} from '../screens/Person.style';
 
 export type NavigationHeaderProps = {
   title?: string;
