@@ -2,12 +2,13 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // prettier-ignore
-import {SafeAreaView, View, UnderlineText,TopBar} from '../theme/navigation'
+import {SafeAreaView, View, UnderlineText,TopBar, MaterialCommunityIcon as Icon} from '../theme/navigation'
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import * as D from '../data';
 import Person from './Person';
 import {LeftRightNavigation} from '../components';
 import type {LeftRightNavigationMethods} from '../components';
+import {NavigationHeader} from '../theme';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -16,7 +17,9 @@ export default function Home() {
     () => navigation.navigate('HomeRight', {name: 'Jack', age: 32}),
     [],
   );
-
+  const logout = useCallback(() => {
+    navigation.navigate('Login');
+  }, []);
   const [scrollEnabled] = useScrollEnabled();
   const [people, setPeople] = useState<D.IPerson[]>([]);
   const leftRef = useRef<LeftRightNavigationMethods | null>(null);
@@ -42,6 +45,10 @@ export default function Home() {
     <SafeAreaView>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
+          <NavigationHeader
+            title="Home"
+            Right={() => <Icon name="logout" size={30} onPress={logout} />}
+          />
           <TopBar>
             <UnderlineText onPress={goLeft} style={styles.text}>
               go Left
