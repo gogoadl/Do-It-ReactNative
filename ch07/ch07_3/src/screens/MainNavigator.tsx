@@ -1,23 +1,22 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaView, View, Text, TopBar} from '../theme/navigation';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const title = 'CopyMe';
+import Login from './Login';
+import SignUp from './SignUp';
+import HomeNavigator from './HomeNavigator';
 
-export default function CopyMe() {
+const Tab = createBottomTabNavigator();
+
+export default function MainNavigator() {
   return (
-    <SafeAreaView>
-      <View style={[styles.view]}>
-        <TopBar />
-        <View style={[styles.content]}>
-          <Text style={[styles.text]}>{title}</Text>
-        </View>
-      </View>
-    </SafeAreaView>
+    <Tab.Navigator>
+      <Tab.Screen name="Login" component={Login} />
+      <Tab.Screen name="SignUp" component={SignUp} />
+      <Tab.Screen
+        name="HomeNavigator"
+        component={HomeNavigator}
+        options={{tabBarLabel: 'Home'}}
+      />
+    </Tab.Navigator>
   );
 }
-const styles = StyleSheet.create({
-  view: {flex: 1, padding: 5},
-  text: {fontSize: 20},
-  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-});
