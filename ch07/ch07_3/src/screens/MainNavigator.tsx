@@ -12,17 +12,21 @@ import HomeNavigator from './HomeNavigator';
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
+const icons: Record<string, string[]> = {
+  HomeNavigator: ['home-circle', 'home-circle-outline'],
+  Login: ['account-search', 'account-search-outline'],
+  SignUp: ['account-clock', 'account-clock-outline'],
+};
+
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
     tabBarIcon: ({focused, color, size}: TabBarIconProps) => {
       const {name} = route;
-      switch (name) {
-        case 'Login':
-          return <AntIcon name="login" size={size} color={color} />;
-        case 'SignUp':
-          return <FontawesomeIcon name="sign-in" size={size} color={color} />;
-      }
-      return <Icon name="home" size={size} color={color} />;
+      const focusedSize = focused ? size + 6 : size;
+      const focusedColor = focused ? Colors.lightBlue500 : color;
+      const [icon, iconOutline] = icons[name];
+      const iconName = focused ? icon : iconOutline;
+      return <Icon name={iconName} size={focusedSize} color={focusedColor} />;
     },
   };
 };
