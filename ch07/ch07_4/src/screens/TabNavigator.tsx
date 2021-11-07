@@ -1,12 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from 'react-native-paper';
-import AntIcon from 'react-native-vector-icons/AntDesign';
-import FontawesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Login from './Login';
-import SignUp from './SignUp';
 import HomeNavigator from './HomeNavigator';
 
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
@@ -14,8 +10,6 @@ type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
   HomeNavigator: ['home-circle', 'home-circle-outline'],
-  Login: ['account-search', 'account-search-outline'],
-  SignUp: ['account-clock', 'account-clock-outline'],
 };
 
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
@@ -33,11 +27,9 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 
 const Tab = createBottomTabNavigator();
 
-export default function MainNavigator() {
+export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      <Tab.Screen name="Login" component={Login} />
-      <Tab.Screen name="SignUp" component={SignUp} />
       <Tab.Screen
         name="HomeNavigator"
         component={HomeNavigator}
