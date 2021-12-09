@@ -1,20 +1,16 @@
-import React, {useCallback} from 'react';
-import {StyleSheet} from 'react-native';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  NavigationHeader,
-  MaterialCommunityIcon as Icon,
-} from '../theme';
-import {LeftRightNavigation} from '../components';
-import {useNavigation} from '@react-navigation/native';
+import React, {useCallback} from 'react'
+import {StyleSheet} from 'react-native'
+import {useNavigation} from '@react-navigation/native'
+// prettier-ignore
+import {SafeAreaView, View, Text, NavigationHeader,
+MaterialCommunityIcon as Icon} from '../theme'
+import {LeftRightNavigation} from '../components'
 
-const title = '카메라로 접근을 허가해 주세요';
+const title = '카메라 접근을 허가해 주세요'
+
 export default function HomeLeft() {
-  const navigation = useNavigation();
-
-  const goHome = useCallback(() => navigation.navigate('Home'), []);
+  const navigation = useNavigation()
+  const goHome = useCallback(() => navigation.navigate('Home'), [])
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
@@ -28,10 +24,10 @@ export default function HomeLeft() {
         </LeftRightNavigation>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 const styles = StyleSheet.create({
-  view: {flex: 1},
-  text: {marginRight: 10, fontSize: 20},
-  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-});
+  view: {flex: 1, padding: 5},
+  text: {fontSize: 20},
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'}
+})

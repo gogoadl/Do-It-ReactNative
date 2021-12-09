@@ -24,6 +24,7 @@ export const AutoFocusProvider: FC<AutoFocusProviderProps> = ({
     </AutoFocusContext.Provider>
   )
 }
+
 export const useAutoFocus = () => {
   const value = useContext(AutoFocusContext)
   return value
@@ -76,6 +77,7 @@ export const AutoFocusProvider: FC<AutoFocusProviderProps> = ({
     </AutoFocusContext.Provider>
   )
 }
+
 export const useAutoFocus = () => {
   const {autoFocus} = useContext(AutoFocusContext)
   return autoFocus
