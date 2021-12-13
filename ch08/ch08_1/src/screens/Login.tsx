@@ -1,28 +1,31 @@
-// 초기 버전
-/*
-import React, {useState, useCallback} from 'react'
-import {StyleSheet} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
-// prettier-ignore
-import {SafeAreaView, View, Text, TextInput, TouchableView, UnderlineText}
-from '../theme'
-import * as D from '../data'
-import {useAutoFocus, AutoFocusProvider} from '../contexts'
+import React, {useState, useCallback} from 'react';
+import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  TouchableView,
+  UnderlineText,
+  TopBar,
+} from '../theme';
+import * as D from '../data';
+import {useAutoFocus, AutoFocusProvider} from '../contexts';
 
 export default function Login() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
+  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson());
   const [password, setPassword] = useState<string>(
-    D.random(10000, 1000000).toString()
-  )
-  const focus = useAutoFocus()
-  const navigation = useNavigation()
-  // const goHomeNavigator = useCallback(
-  //   () => navigation.navigate('HomeNavigator'),
-  //   []
-  // )
-  // prettier-ignore
-  const goTabNavigator = useCallback(() => navigation.navigate('TabNavigator'), [])
-  const goSignUp = useCallback(() => navigation.navigate('SignUp'), [])
+    D.random(10000, 100000).toString(),
+  );
+  const focus = useAutoFocus();
+  const navigation = useNavigation();
+  const goHomeNavigator = useCallback(
+    () => navigation.navigate('HomeNavigator'),
+    [],
+  );
+  const goSignUp = useCallback(() => navigation.navigate('SignUp'), []);
 
   return (
     <SafeAreaView>
@@ -49,7 +52,7 @@ export default function Login() {
                 secureTextEntry
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={password}
+                value={person.email}
                 onChangeText={setPassword}
                 placeholder="enter your password"
               />
@@ -58,7 +61,7 @@ export default function Login() {
           <TouchableView
             notification
             style={[styles.touchableView]}
-            onPress={goTabNavigator}>
+            onPress={goHomeNavigator}>
             <Text style={[styles.text]}>Login</Text>
           </TouchableView>
           <UnderlineText
@@ -69,7 +72,7 @@ export default function Login() {
         </AutoFocusProvider>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 const styles = StyleSheet.create({
   view: {flex: 1, justifyContent: 'space-between', alignItems: 'center'},
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   textView: {width: '100%', padding: 5, marginBottom: 10},
   textInput: {fontSize: 24, padding: 10},
@@ -89,100 +92,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '90%',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
-*/
-// 로긴 액션 적용 버전(최종 버전)
-import React, {useState, useCallback} from 'react'
-import {StyleSheet} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
-// prettier-ignore
-import {SafeAreaView, View, Text, TextInput, TouchableView, UnderlineText}
-from '../theme'
-import * as D from '../data'
-import {useAutoFocus, AutoFocusProvider} from '../contexts'
-import {useDispatch} from 'react-redux'
-import {loginAction} from '../store'
-
-export default function Login() {
-  const [email, setEmail] = useState<string>(D.randomEmail())
-  const [name, setName] = useState<string>(D.randomName())
-  const [password, setPassword] = useState<string>(
-    D.random(10000, 1000000).toString()
-  )
-  const focus = useAutoFocus()
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
-  const goTabNavigator = useCallback(() => {
-    dispatch(loginAction({email, name, password}))
-    navigation.navigate('TabNavigator')
-  }, [])
-  const goSignUp = useCallback(() => navigation.navigate('SignUp'), [])
-  return (
-    <SafeAreaView>
-      <View style={[styles.view]}>
-        <AutoFocusProvider contentContainerStyle={[styles.keyboardAwareFocus]}>
-          <View style={[styles.textView]}>
-            <Text style={[styles.text]}>email</Text>
-            <View border style={[styles.textInputView]}>
-              <TextInput
-                onFocus={focus}
-                style={[styles.textInput]}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="enter your email"
-              />
-            </View>
-          </View>
-          <View style={[styles.textView]}>
-            <Text style={[styles.text]}>password</Text>
-            <View border style={[styles.textInputView]}>
-              <TextInput
-                secureTextEntry
-                onFocus={focus}
-                style={[styles.textInput]}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="enter your name"
-              />
-            </View>
-          </View>
-          <TouchableView
-            notification
-            style={[styles.touchableView]}
-            onPress={goTabNavigator}>
-            <Text style={[styles.text]}>Login</Text>
-          </TouchableView>
-          <UnderlineText
-            style={[styles.text, {marginTop: 15}]}
-            onPress={goSignUp}>
-            SignUp
-          </UnderlineText>
-        </AutoFocusProvider>
-      </View>
-    </SafeAreaView>
-  )
-}
-
-const styles = StyleSheet.create({
-  view: {flex: 1, justifyContent: 'space-between', alignItems: 'center'},
-  text: {fontSize: 20},
-  keyboardAwareFocus: {
-    flex: 1,
-    padding: 5,
     alignItems: 'center',
-    justifyContent: 'center'
   },
-  textView: {width: '100%', padding: 5, marginBottom: 10},
-  textInput: {fontSize: 24, padding: 10},
-  textInputView: {marginTop: 5, borderRadius: 10},
-  touchableView: {
-    flexDirection: 'row',
-    height: 50,
-    borderRadius: 10,
-    width: '90%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+});

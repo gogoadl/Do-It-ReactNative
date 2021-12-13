@@ -1,29 +1,31 @@
-import React, {useMemo} from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
-import type {StackNavigationOptions} from '@react-navigation/stack'
-import {useNavigationHorizontalInterpolator} from '../hooks'
-import Home from './Home'
-import HomeLeft from './HomeLeft'
-import HomeRight from './HomeRight'
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import type {StackNavigationOptions} from '@react-navigation/stack';
 
-const Stack = createStackNavigator()
+import {useNavigationHorizontalInterpolator} from '../hooks';
+import Home from './Home';
+import HomeLeft from './HomeLeft';
+import HomeRight from './HomeRight';
+import {useMemo} from 'react';
 
-export default function MainNavigator() {
-  const interpolator = useNavigationHorizontalInterpolator()
+const Stack = createStackNavigator();
+
+export default function HomeNavigator() {
+  const interpolator = useNavigationHorizontalInterpolator();
   const leftOptions = useMemo<StackNavigationOptions>(
     () => ({
       gestureDirection: 'horizontal-inverted',
-      cardStyleInterpolator: interpolator
+      cardStyleInterpolator: interpolator,
     }),
-    []
-  )
+    [],
+  );
   const rightOptions = useMemo<StackNavigationOptions>(
     () => ({
       gestureDirection: 'horizontal',
-      cardStyleInterpolator: interpolator
+      cardStyleInterpolator: interpolator,
     }),
-    []
-  )
+    [],
+  );
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
@@ -38,5 +40,5 @@ export default function MainNavigator() {
         options={rightOptions}
       />
     </Stack.Navigator>
-  )
+  );
 }

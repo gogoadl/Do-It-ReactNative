@@ -1,8 +1,9 @@
-import React from 'react'
-import {StyleSheet} from 'react-native'
-import {SafeAreaView, View, Text, TopBar} from '../theme/navigation'
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {SafeAreaView, View, Text, TopBar} from '../theme/navigation';
 
-const title = 'CopyMe'
+const title = 'CopyMe';
+
 export default function CopyMe() {
   return (
     <SafeAreaView>
@@ -13,10 +14,10 @@ export default function CopyMe() {
         </View>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 const styles = StyleSheet.create({
   view: {flex: 1, padding: 5},
   text: {fontSize: 20},
-  content: {flex: 1, alignItems: 'center', justifyContent: 'center'}
-})
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+});

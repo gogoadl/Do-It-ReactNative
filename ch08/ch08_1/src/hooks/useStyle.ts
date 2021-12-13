@@ -1,5 +1,5 @@
-import {useMemo} from 'react'
+import {useMemo} from 'react';
 
-export const useStyle = (style: object, deps: any[] = []) => {
-  return useMemo(() => style, deps)
-}
+export const useStyle = (styles: object, deps: any[] = []) => {
+  return useMemo(() => styles, deps);
+};

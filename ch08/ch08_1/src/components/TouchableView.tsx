@@ -25,7 +25,7 @@ type TouchableOpacityProps = ComponentProps<typeof TouchableOpacity>
 export type TouchableViewProps = TouchableOpacityProps & {
   children?: ReactNode
 }
-// prettier-ignore
+
 export const TouchableView: FC<TouchableViewProps> = ({
   children, ...touchableProps}) => {
   return (
@@ -63,9 +63,12 @@ type TouchableOpacityProps = ComponentProps<typeof TouchableOpacity>
 export type TouchableViewProps = TouchableOpacityProps & {
   viewStyle?: StyleProp<ViewStyle>
 }
-// prettier-ignore
+
 export const TouchableView: FC<TouchableViewProps> = ({
-  children, viewStyle, ...touchableProps}) => {
+  children,
+  viewStyle,
+  ...touchableProps
+}) => {
   return (
     <TouchableOpacity {...touchableProps}>
       <View style={[viewStyle]}>{children}</View>

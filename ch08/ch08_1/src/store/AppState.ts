@@ -1,9 +1,10 @@
 export type User = {
-  name: string
-  email: string
-  password: string
-}
+  name: string;
+  email: string;
+  password: string;
+};
+
 export type AppState = {
-  loggedIn: boolean
-  loggedUser: User
-}
+  loggedIn: boolean;
+  loggedUser: User;
+};

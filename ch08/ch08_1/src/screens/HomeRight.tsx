@@ -1,21 +1,31 @@
-import React, {useCallback} from 'react'
-import {StyleSheet, Alert} from 'react-native'
-import {useNavigation, useRoute} from '@react-navigation/native'
-// prettier-ignore
-import {SafeAreaView, View, Text, TopBar,
-NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
-import {LeftRightNavigation} from '../components'
+import React, {useCallback} from 'react';
+import {Alert, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  UnderlineText,
+  TopBar,
+  Text,
+  MaterialCommunityIcon as Icon,
+} from '../theme/navigation';
+import * as D from '../data';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {NavigationHeader} from '../theme';
+import {LeftRightNavigation} from '../components';
 
-const title = 'HomeRight'
-
+const title = 'HomeRight';
 export default function HomeRight() {
-  const navigation = useNavigation()
-  const route = useRoute()
+  const navigation = useNavigation();
   const goBack = useCallback(
     () => navigation.canGoBack() && navigation.goBack(),
-    []
-  )
-  const goHome = useCallback(() => navigation.navigate('Home'), [])
+    [],
+  );
+  const goHome = useCallback(
+    () => navigation.navigate('Home', {id: D.randomId()}),
+    [],
+  );
+
+  const route = useRoute();
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
@@ -34,24 +44,20 @@ export default function HomeRight() {
         />
         <TopBar>
           <Text onPress={goBack}>go back</Text>
-          <Text onPress={goHome} style={{marginLeft: 10}}>
-            go Home
-          </Text>
+          <Text onPress={goHome}>go Right</Text>
         </TopBar>
         <LeftRightNavigation distance={40} onLeftToRight={goHome}>
           <View style={[styles.content]}>
             <Text style={[styles.text]}>{title}</Text>
-            <Text style={[styles.text]}>
-              route: {JSON.stringify(route, null, 2)}
-            </Text>
+            <Text style={[styles.text]}>{JSON.stringify(route, null, 2)}</Text>
           </View>
         </LeftRightNavigation>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 const styles = StyleSheet.create({
-  view: {flex: 1, padding: 5},
-  text: {fontSize: 20},
-  content: {flex: 1, alignItems: 'center', justifyContent: 'center'}
-})
+  view: {flex: 1},
+  text: {marginRight: 10, fontSize: 20},
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+});

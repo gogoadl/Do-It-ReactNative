@@ -33,7 +33,6 @@ import type {FC} from 'react'
 export type ToggleThemeContextType = {
   toggleTheme: () => void
 }
-
 const defaultToggleThemeContext = {
   toggleTheme: () => {}
 }
@@ -57,7 +56,6 @@ export const ToggleThemeProvider: FC<ToggleThemeContextProps> = ({
     </ToggleThemeContext.Provider>
   )
 }
-
 export const useToggleTheme = () => {
   const {toggleTheme} = useContext(ToggleThemeContext)
   return toggleTheme

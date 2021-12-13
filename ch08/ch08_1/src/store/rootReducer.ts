@@ -1,37 +1,14 @@
-// 초기 버전
-/*
-import {AppState} from './AppState'
-import type {LoginActions} from './actions'
+import {AppState} from './AppState';
+import type {LoginActions} from './actions';
 
 const initialState: AppState = {
   loggedIn: false,
-  loggedUser: {email: '', name: '', password: ''}
-}
-// prettier-ignore
-export const rootReducer =
-    (state: AppState = initialState, action: LoginActions) => {
-  return state
-}
-*/
-// 로긴 리듀서 구현 버전(최종 버전)
-import {AppState} from './AppState'
-import type {LoginActions} from './actions'
-
-const initialState: AppState = {
-  loggedIn: false,
-  loggedUser: {email: '', name: '', password: ''}
-  // 나중에 다른 멤버가 추가될 수 있습니다.
-}
+  loggedUser: {name: '', email: '', password: ''},
+};
 
 export const rootReducer = (
   state: AppState = initialState,
-  action: LoginActions
+  actions: LoginActions,
 ) => {
-  switch (action.type) {
-    case 'login':
-      return {...state, loggedUser: action.loggedUser, loggedIn: true}
-    case 'logout':
-      return initialState
-  }
-  return state
-}
+  return state;
+};
