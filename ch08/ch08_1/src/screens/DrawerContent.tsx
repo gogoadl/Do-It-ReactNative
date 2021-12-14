@@ -1,8 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {
+  SafeAreaView,
   View,
   Text,
+  TopBar,
   NavigationHeader,
   UnderlineText,
   MaterialCommunityIcon as Icon,
@@ -14,19 +16,21 @@ import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import {Avatar} from '../components';
 import * as D from '../data';
+import {AppState, User} from '../store';
 import {useSelector} from 'react-redux';
-import type {AppState, User} from '../store';
 
 const DrawerContent: FC<DrawerContentComponentProps> = props => {
+  const {navigation} = props; // useNavigation 훅으로 Drawer Navigation에서는 얻을 수 없다.
   const loggedIn = useSelector<AppState, boolean>(state => state.loggedIn);
   const loggedUser = useSelector<AppState, User>(state => state.loggedUser);
-  const {email, name} = loggedUser;
-
-  const {navigation} = props; // useNavigation 훅으로 Drawer Navigation에서는 얻을 수 없다.
+  const email = 'test';
+  const name = 'test';
+  console.log(loggedIn, loggedUser);
   const close = useCallback(
     () => navigation.dispatch(DrawerActions.closeDrawer()),
     [],
   );
+
   if (!loggedIn) {
     return (
       <DrawerContentScrollView {...props} contentContainerStyle={[styles.view]}>
@@ -42,7 +46,6 @@ const DrawerContent: FC<DrawerContentComponentProps> = props => {
       </DrawerContentScrollView>
     );
   }
-
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={[styles.view]}>
       <NavigationHeader
@@ -68,6 +71,7 @@ const DrawerContent: FC<DrawerContentComponentProps> = props => {
     </DrawerContentScrollView>
   );
 };
+
 export default DrawerContent;
 
 const styles = StyleSheet.create({

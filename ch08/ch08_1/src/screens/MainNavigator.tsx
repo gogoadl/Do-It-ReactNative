@@ -9,10 +9,9 @@ const Drawer = createDrawerNavigator();
 
 export default function MainNavigator() {
   return (
-    <Drawer.Navigator drawerContent={DrawerContent}>
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="SignUp" component={SignUp} />
-      <Drawer.Screen name="DrawerContent" component={DrawerContent} />
       <Drawer.Screen
         name="TabNavigator"
         component={TabNavigator}

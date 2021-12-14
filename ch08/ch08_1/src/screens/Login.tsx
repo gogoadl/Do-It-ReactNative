@@ -13,18 +13,24 @@ import {
 } from '../theme';
 import * as D from '../data';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
+import {useDispatch} from 'react-redux';
+import {loginAction} from '../store';
 
 export default function Login() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson());
+  const [email, setEmail] = useState<string>(D.randomEmail());
+  const [name, setName] = useState<string>(D.randomName());
   const [password, setPassword] = useState<string>(
     D.random(10000, 100000).toString(),
   );
   const focus = useAutoFocus();
   const navigation = useNavigation();
-  const goHomeNavigator = useCallback(
-    () => navigation.navigate('HomeNavigator'),
-    [],
-  );
+  const dispatch = useDispatch();
+
+  const goTablNavigator = useCallback(() => {
+    dispatch(loginAction({email, name, password}));
+    console.log(email, name, password);
+    navigation.navigate('TabNavigator');
+  }, []);
   const goSignUp = useCallback(() => navigation.navigate('SignUp'), []);
 
   return (
@@ -37,10 +43,8 @@ export default function Login() {
               <TextInput
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
-                onChangeText={email =>
-                  setPerson(person => ({...person, email}))
-                }
+                value={email}
+                onChangeText={setEmail}
                 placeholder="enter your email"
               />
             </View>
@@ -52,7 +56,7 @@ export default function Login() {
                 secureTextEntry
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
+                value={password}
                 onChangeText={setPassword}
                 placeholder="enter your password"
               />
@@ -61,7 +65,7 @@ export default function Login() {
           <TouchableView
             notification
             style={[styles.touchableView]}
-            onPress={goHomeNavigator}>
+            onPress={goTablNavigator}>
             <Text style={[styles.text]}>Login</Text>
           </TouchableView>
           <UnderlineText

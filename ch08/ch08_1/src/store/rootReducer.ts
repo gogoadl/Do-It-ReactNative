@@ -8,7 +8,13 @@ const initialState: AppState = {
 
 export const rootReducer = (
   state: AppState = initialState,
-  actions: LoginActions,
+  action: LoginActions,
 ) => {
+  switch (action.type) {
+    case 'login':
+      return {...state, loggedUser: action.logeedUser, loggedIn: true};
+    case 'logout':
+      return {initialState};
+  }
   return state;
 };
